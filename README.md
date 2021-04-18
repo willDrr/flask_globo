@@ -22,7 +22,7 @@ Now `flask run`
 
 ## You will need an application to test mail activation account
 
-Download [MailHog]([MailHog/RELEASES.md at master · mailhog/MailHog · GitHub](https://github.com/mailhog/MailHog/blob/master/docs/RELEASES.md)) for your Machine 
+Download [MailHog](https://github.com/mailhog/MailHog/blob/master/docs/RELEASES.md) for your Machine 
 
 Run mailhog so you can see the emails for your account confirmation
 
