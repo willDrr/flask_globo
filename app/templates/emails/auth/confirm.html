@@ -1,0 +1,22 @@
+<p>Hello {{ username }}!</p>
+<br>
+<p>Welcome to Globomantics!</p>
+
+<p>
+{% if role == (Role.MUSICIAN) %}
+We hope that you will find gigs and make some music!
+{% endif %}
+{% if role == (Role.EMPLOYER) %}
+We hope that you will find the right musicians for your event!
+{% endif %}
+</p>
+<br>
+<p>
+To confirm the account, click on the link below:
+</p>
+<a href="{{ activation_link }}">Activate</a>
+<br>
+<p>
+Thank you for joining the site!
+</p>
+<small>Please do not reply to this email.</small>

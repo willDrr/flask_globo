@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}{{ gig.title }} - {% endblock %}
+
+{% block content %}
+<div class="row">
+
+  <div class="col-lg-10">
+    <div class="card mt-4">
+      <div class="card-body">
+        <h3 class="card-title">
+          <img class="gig-image" src="{{ url_for('static', filename='images/gig.png') }}" alt="">
+          {{ gig.title }}
+        {% if gig.employer == current_user %}
+        <div class="button-actions">
+          <a href="{{ url_for('gig.edit', slug=gig.slug) }}" class="btn btn-primary">Update gig</a>
+          <form class="delete-form" method="POST" action="{{ url_for('gig.delete', slug=gig.slug) }}">
+            <input class="btn btn-danger" type="submit" name="deleteGig"
+              value="Delete gig"
+              onclick="return confirm('Are you sure that you want to permanently delete this gig?')">
+          </form>
+        </div>
+	      {% endif %}
+        {% if current_user.is_role(Role.MUSICIAN) %}
+          <div class="button-actions">
+          {% if current_user.is_applied_to(gig) %}
+            <button class="btn btn-warning" style="color:white" disabled>Applied...</button>
+          {% else %}
+            <form method="POST" action="{{ url_for('gig.apply_to_gig', slug=gig.slug) }}">
+              <input type="submit" class="btn btn-warning" style="color:white" value="Apply">
+            </form>
+          {% endif %}
+          </div>
+        {% endif %}
+	      </h3>
+        <h4>{{ "$%.2f" | format(gig.payment) }}</h4>
+        <p><b>Location:</b> {{ gig.location }}</p>
+        <p class="card-text">{{ gig.description }}</p>
+        <small>Posted by: <a href="{{ url_for('account.show', username=gig.employer.username) }}">{{ gig.employer.username }}</a></small>
+      </div>
+    </div>
+
+
+    <div class="card card-outline-secondary my-4">
+      <div class="card-header">
+        Musicians applied to this gig
+      </div>
+      <div class="card-body">
+        {% if musicians %}
+        {% for musician in musicians %}
+        <h4><a href="{{ url_for('account.show', username=musician.username) }}">{{ musician.username }}</a><h4>
+        <hr class="form-border">
+        {% endfor %}
+        {% else %}
+        Nothing to show
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

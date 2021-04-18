@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }} - {% endblock %}
+{% if current_user == user %}
+{% set active_page = 'account' %}
+{% endif %}
+
+{% if user.is_role(Role.MUSICIAN) %}
+{% set profile_image = "musician.png" %}
+{% endif %}
+{% if user.is_role(Role.EMPLOYER) %}
+{% set profile_image = "employer.png" %}
+{% endif %}
+
+{% block content %}
+<div class="row">
+
+  <div class="col-lg-10">
+    <div class="card mt-4">
+      <div class="card-body">
+        <h3 class="card-title">
+        {% if not user.is_admin() %}
+        <img class="profile-image" src="{{ url_for('static', filename='images/' + profile_image) }}">
+        {% endif %}
+        {{ user.username }}
+        <small>
+      		{% if user.is_role(Role.MUSICIAN) %}
+      		(musician)
+         	{% endif %}
+      		{% if user.is_role(Role.EMPLOYER) %}
+      		(employer)
+      		{% endif %}
+          {% if user.is_role(Role.ADMIN) %}
+          (admin)
+          {% endif %}
+      	</small>
+        {% if user == current_user %}
+          <div class="button-actions">
+      	    <a href="{{ url_for('account.edit') }}" class="btn btn-primary">Update account</a>
+            <form class="delete-form" method="POST" action="{{ url_for('account.delete') }}">
+              <input class="btn btn-danger" type="submit" name="deleteAccount"
+              value="Delete account"
+              onclick="return confirm('Are you sure that you want to permanently delete your account?')">
+      	    </form>
+      		</div>
+        {% endif %}
+        {% if user.is_role(Role.MUSICIAN) and current_user.is_role(Role.EMPLOYER)%}
+        <div class="button-actions">
+          <a href="mailto:{{ user.email }}" class="btn btn-success" style="color:white" >Send email</a>
+        </div>
+        {% endif %}
+  	    </h3>
+        <p><b>Location:</b> {{ user.location }}</p>
+        <p class="card-text">{{ user.description }}</p>
+      </div>
+    </div>
+
+    {% if not user.is_admin() %}
+    <div class="card card-outline-secondary my-4">
+      <div class="card-header">
+        {% if user.is_role(Role.MUSICIAN) %}
+        Gigs this musician is applied to
+        {% endif %}
+        {% if user.is_role(Role.EMPLOYER) %}
+        Gigs posted by this employer
+        {% endif %}
+      </div>
+      <div class="card-body">
+      {% if gigs %}
+      {% for gig in gigs %}
+        <h4><a href="{{ url_for('gig.show', slug=gig.slug) }}">{{ gig.title }}</a><h4>
+        <small>{{ gig.description }}</small>
+        <hr class="form-border">
+        {% endfor %}
+      {% else %}
+      Nothing to show
+      {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+{% endblock %}

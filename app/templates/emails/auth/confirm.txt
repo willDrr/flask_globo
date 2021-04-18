@@ -1,0 +1,18 @@
+Hello {{ username }}!
+
+Welcome to Globomantics!
+
+{% if role == Role.MUSICIAN %}
+We hope that you will find gigs and make some music!
+{% endif %}
+{% if role == Role.EMPLOYER %}
+We hope that you will find the right musicians for your event!
+{% endif %}
+
+To confirm the account, click on the link below:
+
+{{ activation_link }}
+
+Thank you for joining the site!
+
+**Please do not reply to this email.**

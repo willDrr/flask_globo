@@ -1,0 +1,19 @@
+<div class="col-lg-4 col-md-6 mb-4">
+  <div class="card h-100">
+    <div class="card-body">
+      <div class="embed-responsive embed-responsive-16by9" style="margin-bottom:10px">
+        <a href="">
+          <img class="card-img-top embed-responsive-item" src="{{ url_for('static', filename='images/musician.png') }}" alt="">
+        </a>
+      </div>
+      <h4 class="card-title">
+        <a href="{{ url_for('account.show', username=musician.username) }}">{{ musician.username }}</a>
+      </h4>
+      <p>{{ musician.location }}</p>
+      <p class="card-text">{{ musician.description }}</p>
+    </div>
+    <div class="card-footer">
+        <a href="mailto:{{ musician.email }}" class="btn btn-success" style="color:white" >Send email</a>
+    </div>
+  </div>
+</div>
