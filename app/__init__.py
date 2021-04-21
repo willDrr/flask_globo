@@ -19,7 +19,7 @@ def create_app():
         MAIL_SERVER="127.0.0.1",
         MAIL_PORT=1025,    
         CELERY_BROKER_URL="redis://127.0.0.1:6370/0",        
-        SEND_MAILS_WITH_CELERY=False
+        SEND_MAILS_WITH_CELERY=True
     )
 
     db.init_app(app)

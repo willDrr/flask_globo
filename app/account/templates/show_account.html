@@ -19,7 +19,8 @@
       <div class="card-body">
         <h3 class="card-title">
         {% if not user.is_admin() %}
-        <img class="profile-image" src="{{ url_for('static', filename='images/' + profile_image) }}">
+        <img class="profile-image" src="{{ url_for('static', filename='images/'
+		+ profile_image) }}">
         {% endif %}
         {{ user.username }}
         <small>
@@ -40,6 +41,9 @@
               <input class="btn btn-danger" type="submit" name="deleteAccount"
               value="Delete account"
               onclick="return confirm('Are you sure that you want to permanently delete your account?')">
+		{% if user.role_id == 3 %}	
+		<a href="{{ url_for('gig.create') }}" class="btn btn-primary">Create gig</a>
+	        {% endif %}
       	    </form>
       		</div>
         {% endif %}
